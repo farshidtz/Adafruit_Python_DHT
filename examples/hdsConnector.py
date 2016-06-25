@@ -46,22 +46,18 @@ while True:
 		
 		conn = httplib.HTTPConnection("localhost", 8090)
 		HEADERS = {"Content-Type": "application/senml+json"}
-		# Post temperature
-		senml = {"n": "http://farshidpi.duckdns.org:8090/sensor/temperature", "u": "C", "v": temperature}
-		senmlArr = {"e": [senml]}
+		# Post data
+		temp_senml = {"n": "room/sensor/temperature", "u": "C", "v": temperature}
+		humidity_senml = {"n": "room/sensor/humidity", "u": "%", "v": humidity}
+		senmlArr = {"e": [temp_senml, humidity_senml]}
 		BODY = json.dumps(senmlArr)
-		conn.request("POST", "/data/65c575f9-d8f7-4144-936f-af068267e00d", BODY, HEADERS)
+		conn.request("POST", "/data/59b67f5d-91bd-4bbd-be37-f5dcd301a697,fb1382cc-19a5-4711-8364-bf83aa67602a", BODY, HEADERS)
 		response = conn.getresponse()
 		print response.status, response.reason, response.read()
-		# Post Humidity
-		senml = {"n": "http://farshidpi.duckdns.org:8090/sensor/humidity", "u": "%", "v": humidity}
-		senmlArr = {"e": [senml]}
-		BODY = json.dumps(senmlArr)
-		conn.request("POST", "/data/7260392b-451e-4aed-a6e3-8f03b43a692c", BODY, HEADERS)
-		response = conn.getresponse()
-		print response.status, response.reason, response.read()
+		time.sleep(30)
+
 
 	else:
 		print 'Failed to get reading. Try again!'
+		time.sleep(1)
 	
-	time.sleep(5)
