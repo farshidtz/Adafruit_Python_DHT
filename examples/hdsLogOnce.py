@@ -24,12 +24,14 @@ import Adafruit_DHT
 import httplib
 import time
 import json
+from time import localtime, strftime
 
 
 sensor = 11
 pin = 4
 
 while True:
+	print strftime("%Y.%m.%d %H:%M:%S %Z", localtime())
 	# Try to grab a sensor reading.  Use the read_retry method which will retry up
 	# to 15 times to get a sensor reading (waiting 2 seconds between each retry).
 	humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
@@ -54,7 +56,7 @@ while True:
 		conn.request("POST", "/data/59b67f5d-91bd-4bbd-be37-f5dcd301a697,fb1382cc-19a5-4711-8364-bf83aa67602a", BODY, HEADERS)
 		response = conn.getresponse()
 		print response.status, response.reason, response.read()
-		time.sleep(30)
+		break
 
 
 	else:
